@@ -1,0 +1,122 @@
+{% assign icon_name = icon | append: '.svg' %}
+
+{%- style -%}
+      .fab-button-{{ icon }}-{{id}}{
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+          height: 47px;
+          align-items: center;
+          border-radius: 8px;
+          padding: 16px 20px;
+          background: #fff;
+          color: #00000080;
+          gap: 16px;
+          border: 0.5px solid #99999980;
+          cursor: pointer;
+      }
+
+      .fab-active-button{
+        background: #AB977C !important;
+        color: white !important;
+        border: none;
+
+      }
+      .fab-active-icon{
+        background-color: #fff !important;
+      }
+
+      .fab-button-text{
+          font-family: Montserrat;
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 20px;
+          letter-spacing: 0px;
+          flex-grow: 8;
+          text-align: left;
+      }
+      .fab-icon-left,
+      .fab-icon-right{
+          flex-grow: 1;
+      }
+
+      .fab-icon-{{ icon }}-{{id}},
+      .fab-icon-chevron-{{id}}{
+        background-color: #00000080;
+        mask: var(--mask-url) no-repeat center / contain;
+        -webkit-mask: var(--mask-url) no-repeat center / contain;
+        display: block !important;
+    }
+    .fab-icon-{{ icon }}-{{id}}{
+            width:24px;
+            height:24px;
+            --mask-url: url('{{ icon_name | asset_url }}');
+          }
+          .fab-icon-chevron-{{id}}{
+          width:12px;
+          height:10px;
+          --mask-url: url('{{ "chevron-down.svg" | asset_url }}');
+      }
+
+      .fab-icon-chevron-rotate {
+      transform: rotate(180deg);
+      transition: transform 0.3s ease-in-out;
+  }
+{%- endstyle -%}
+
+<button class="fab-button-{{ icon }}-{{id}}" data-control="{{ icon }}-{{ id }}">
+  <span class="fab-icon-left"
+    ><span class="icon icon-layouts" aria-hidden="true">
+      <div
+        class="fab-icon-{{ icon }}-{{id}}"
+        data-icon="{{ icon }}-{{ id }}"
+        style="--mask-url: url('{{ icon_name | asset_url }}')"
+      ></div></span
+  ></span>
+
+  <span class="fab-button-text">{{ text }}</span>
+
+  <span class="fab-icon-right">
+    <span class="fab-icon-left"
+      ><span class="icon icon-chevron-down" aria-hidden="true">
+        <div
+          class="fab-icon-chevron-{{id}}"
+          data-chevron="{{ id }}"
+          style="--mask-url: url('{{ "chevron-down.svg" | asset_url }}')"
+        ></div></span
+    ></span>
+  </span>
+</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const buttons = document.querySelectorAll('[data-control]');
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', function () {
+        const isActive = this.classList.contains('fab-active-button');
+
+        // Remove active class from all buttons & icons
+        buttons.forEach((btn) => {
+          btn.classList.remove('fab-active-button');
+          const icon = btn.querySelector('[data-icon]');
+          const chevron = btn.querySelector('[data-chevron]');
+          if (icon) icon.classList.remove('fab-active-icon');
+          if (chevron) chevron.classList.remove('fab-icon-chevron-rotate');
+          if (chevron) chevron.classList.remove('fab-active-icon');
+        });
+
+        // Toggle the active class only if it was NOT active before
+        if (!isActive) {
+          this.classList.add('fab-active-button');
+          const activeIcon = this.querySelector('[data-icon]');
+          const activeChevron = this.querySelector('[data-chevron]');
+          if (activeIcon) activeIcon.classList.add('fab-active-icon');
+          if (activeChevron) activeChevron.classList.add('fab-active-icon');
+          if (activeChevron) activeChevron.classList.add('fab-icon-chevron-rotate');
+        }
+      });
+    });
+  });
+</script>
+

@@ -1,0 +1,34 @@
+{% assign control_texts = 'Layouts, Layout Size, Pattern, Tile type, Edges, Color, My Designs ' | split: ', ' %}
+{% assign control_icons = 'layouts, layout-size, pattern, tile-type, edges, color, my-designs' | split: ', ' %}
+
+<button id="btn-configurator">Configurator</button>
+
+<div id="configurator" class="configurator-container hidden">
+  <div class="configurator-sidebar">
+    {% for text in control_texts %}
+      {% assign index = forloop.index0 %}
+      {% assign icon = control_icons[index] %}
+      {% render 'button', text: text, icon: icon, id: block.id %}
+    {% endfor %}
+  </div>
+
+  <div class="configurator-canvas">
+    <h3>Preview</h3>
+    <div id="canvas-preview">
+      <p>Selected settings will appear here.</p>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Interlocking Configurator",
+  "stylesheet": "configurator.css",
+  "javascript": "configurator.js",
+  "target": "section",
+  "settings": [
+    { "type": "product", "id": "product", "label": "product", "autofill": true },
+    { "type": "color", "id": "colour", "label": "Star Colour", "default": "#ff0000" }
+  ]
+}
+{% endschema %}

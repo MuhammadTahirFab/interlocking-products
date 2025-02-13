@@ -1,0 +1,19 @@
+{% assign icon_name = icon | append: '.svg' %}
+{%- style -%}
+  .fab-icon-{{ icon }}-{{id}}{
+      background-color: {{color}};
+      --mask-url: url('{{ icon_name | asset_url }}');
+      mask: var(--mask-url) no-repeat center / contain;
+      -webkit-mask: var(--mask-url) no-repeat center / contain;
+      width:{{size}}px;
+      height:{{size}}px;
+      display: block !important;
+  }
+{%- endstyle -%}
+
+<span class="icon icon-{{ icon }}" aria-hidden="true">
+  <div
+    class="fab-icon-{{ icon }}-{{id}}"
+    style="--mask-url: url('{{ icon_name | asset_url }}')"
+  ></div>
+</span>

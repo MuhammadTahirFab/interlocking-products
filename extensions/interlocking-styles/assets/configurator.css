@@ -47,3 +47,24 @@
     align-items: center;
     justify-content: center;
 }
+
+.layout-options,
+.pattern-options,
+.tile-type-options,
+.layouts-size {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    columns: 2;
+    flex-wrap: wrap;
+    row-gap: 15px;
+    padding: 0 10px;
+}
+
+.layouts-size {
+    columns: 1 !important;
+}
+
+.active-options {
+    display: flex !important;
+}

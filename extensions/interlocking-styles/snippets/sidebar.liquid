@@ -1,0 +1,192 @@
+{% assign icon_name = type | append: '.svg' %}
+{% assign active_type = 'tile-type' %}
+
+{%- style -%}
+      .fab-button-{{ type }}-{{id}}{
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+          height: 47px;
+          align-items: center;
+          border-radius: 8px;
+          padding: 16px 20px;
+          background: #fff;
+          color: #00000080;
+          gap: 16px;
+          border: 0.5px solid #99999980;
+          cursor: pointer;
+      }
+
+      .fab-active-button{
+        background: #AB977C !important;
+        color: white !important;
+        border: none;
+
+      }
+      .fab-active-icon{
+        background-color: #fff !important;
+      }
+
+      .fab-button-text{
+          font-family: Montserrat;
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 20px;
+          letter-spacing: 0px;
+          flex-grow: 8;
+          text-align: left;
+      }
+      .fab-icon-left,
+      .fab-icon-right{
+          flex-grow: 1;
+      }
+
+      .fab-icon-{{ type }}-{{id}},
+      .fab-icon-chevron-{{id}}{
+        background-color: #00000080;
+        mask: var(--mask-url) no-repeat center / contain;
+        -webkit-mask: var(--mask-url) no-repeat center / contain;
+        display: block !important;
+    }
+    .fab-icon-{{ type }}-{{id}}{
+            width:24px;
+            height:24px;
+            --mask-url: url('{{ icon_name | asset_url }}');
+          }
+          .fab-icon-chevron-{{id}}{
+          width:12px;
+          height:10px;
+          --mask-url: url('{{ "chevron-down.svg" | asset_url }}');
+          transform: rotate(0deg);
+          transition: transform 0.3s ease-in-out;
+      }
+
+      .fab-icon-chevron-rotate {
+      transform: rotate(180deg);
+      /* transition: transform 0.3s ease-in-out; */
+  }
+
+  .selected-image {
+    /* border: 2px solid #AB977C;  */
+  }
+{%- endstyle -%}
+
+<button class="fab-button-{{ type }}-{{id}}" data-control="{{ type }}-{{ id }}" data-type="{{ type }}">
+  <span class="fab-icon-left"
+    ><span class="icon icon-layouts" aria-hidden="true">
+      <div
+        class="fab-icon-{{ type }}-{{id}}"
+        data-icon="{{ type }}-{{ id }}"
+        style="--mask-url: url('{{ icon_name | asset_url }}')"
+      ></div></span
+  ></span>
+
+  <span class="fab-button-text">{{ text }}</span>
+
+  <span class="fab-icon-right">
+    <span class="fab-icon-left"
+      ><span class="icon icon-chevron-down" aria-hidden="true">
+        <div
+          class="fab-icon-chevron-{{id}}"
+          data-chevron="{{ id }}"
+          style="--mask-url: url('{{ "chevron-down.svg" | asset_url }}')"
+        ></div></span
+    ></span>
+  </span>
+</button>
+
+{% if type == 'layouts' %}
+  <div id="layouts" class="control-options layout-options">
+    {% for i in (1..4) %}
+      {% assign src = 'layout' | append: i | append: '.png' %}
+      <img src="{{ src | asset_url }}" width="94" height="61" class="layout-img">
+    {% endfor %}
+  </div>
+{% elsif type == 'layouts-size' %}
+  <div id="layouts-size" class="control-options layout-options">
+    <input
+      label="Width"
+      type="number"
+      name="width"
+      id="width"
+      class=""
+    >
+    <input
+      label="Height"
+      type="number"
+      name="height"
+      id="height"
+      class=""
+    >
+  </div>
+{% elsif type == 'pattern' %}
+  <div id="pattern" class="control-options pattern-options">
+    {% for i in (1..6) %}
+      {% assign src = 'pattern' | append: i | append: '.png' %}
+      <img src="{{ src | asset_url }}" width="94" height="61">
+    {% endfor %}
+  </div>
+
+{% elsif type == 'tile-type' %}
+  <div id="tile-type" class="control-options tile-type-options">
+    {% for i in (1..1) %}
+      {% assign src = 'tile-type' | append: i | append: '.png' %}
+      <img src="{{ src | asset_url }}" width="94" height="61">
+    {% endfor %}
+  </div>
+
+{% elsif type == 'edges' %}
+  {% comment %} <div id="edges" class="control-options layout-options"></div> {% endcomment %}
+
+{% elsif type == 'color' %}
+  {% comment %} <div id="color" class="control-options layout-options"></div> {% endcomment %}
+
+{% elsif type == 'my-designs' %}
+  {% comment %} <div id="my-designs" class="control-options layout-options"></div> {% endcomment %}
+{% endif %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const control_options = document.querySelectorAll('.control-options');
+    control_options.forEach((ctrl) => {
+      ctrl.classList.remove('active-options');
+    });
+
+    const buttons = document.querySelectorAll('[data-control]');
+    buttons.forEach((button) => {
+      button.addEventListener('click', function () {
+        const active_type = this.getAttribute('data-type'); // Get the data-type value
+
+        // If the clicked button is already active, do nothing
+        if (this.classList.contains('fab-active-button')) {
+          return;
+        }
+
+        // Remove active class from all buttons & icons
+        buttons.forEach((btn) => {
+          btn.classList.remove('fab-active-button');
+          const icon = btn.querySelector('[data-icon]');
+          const chevron = btn.querySelector('[data-chevron]');
+          if (icon) icon.classList.remove('fab-active-icon');
+          if (chevron) chevron.classList.remove('fab-active-icon', 'fab-icon-chevron-rotate');
+        });
+
+        // Add active class to clicked button
+        this.classList.add('fab-active-button');
+        const activeIcon = this.querySelector('[data-icon]');
+        const activeChevron = this.querySelector('[data-chevron]');
+        if (activeIcon) activeIcon.classList.add('fab-active-icon');
+        if (activeChevron) activeChevron.classList.add('fab-active-icon', 'fab-icon-chevron-rotate');
+
+        // Manage active options
+        const control_options = document.querySelectorAll('.control-options');
+        control_options.forEach((ctrl) => ctrl.classList.remove('active-options')); // Remove from all
+
+        const options = document.getElementById(active_type);
+        if (options) {
+          options.classList.add('active-options'); // Add to the selected one
+        }
+      });
+    });
+  });
+</script>

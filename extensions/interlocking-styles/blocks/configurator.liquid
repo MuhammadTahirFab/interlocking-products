@@ -1,14 +1,13 @@
-{% assign control_texts = 'Layouts, Layout Size, Pattern, Tile type, Edges, Color, My Designs ' | split: ', ' %}
-{% assign control_icons = 'layouts, layout-size, pattern, tile-type, edges, color, my-designs' | split: ', ' %}
+{% assign control_texts = 'Layouts, Layout Size, Pattern, Tile type, Edges, Color, My Designs' | split: ', ' %}
+{% comment %} {% assign control_icons = 'layouts, layout-size, pattern, tile-type, edges, color, my-designs' | split: ', ' %} {% endcomment %}
 
 <button id="btn-configurator">Configurator</button>
 
 <div id="configurator" class="configurator-container hidden">
   <div class="configurator-sidebar">
     {% for text in control_texts %}
-      {% assign index = forloop.index0 %}
-      {% assign icon = control_icons[index] %}
-      {% render 'button', text: text, icon: icon, id: block.id %}
+      {% assign type = text | downcase | replace: ' ', '-' %}
+      {% render 'sidebar', text: text, type: type, id: block.id %}
     {% endfor %}
   </div>
 

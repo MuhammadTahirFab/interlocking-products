@@ -83,23 +83,31 @@
 
   <span class="fab-button-text">{{ text }}</span>
 
-  <span class="fab-icon-right">
-    <span class="fab-icon-left"
+  {% if type != 'edges' and type != 'my-designs' %}
+    <span class="fab-icon-right"
       ><span class="icon icon-chevron-down" aria-hidden="true">
         <div
           class="fab-icon-chevron-{{id}}"
           data-chevron="{{ id }}"
           style="--mask-url: url('{{ "chevron-down.svg" | asset_url }}')"
-        ></div></span
-    ></span>
-  </span>
+        ></div>
+      </span>
+    </span>
+  {% endif %}
 </button>
 
 {% if type == 'layouts' %}
   <div id="layouts" class="control-options layout-options">
     {% for i in (1..4) %}
       {% assign src = 'layout' | append: i | append: '.png' %}
-      <img src="{{ src | asset_url }}" width="94" height="61" class="layout-img">
+      <img
+        id="layout{{ i }}"
+        data-layout="layout{{ i }}"
+        src="{{ src | asset_url }}"
+        width="94"
+        height="61"
+        class="layout-img"
+      >
     {% endfor %}
   </div>
 {% elsif type == 'layouts-size' %}

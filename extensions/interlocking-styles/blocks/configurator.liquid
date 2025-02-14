@@ -1,3 +1,8 @@
+<script
+  defer
+  src="{{ 'konva.js' | asset_url }}"
+></script>
+
 {% assign control_texts = 'Layouts, Layout Size, Pattern, Tile type, Edges, Color, My Designs' | split: ', ' %}
 {% comment %} {% assign control_icons = 'layouts, layout-size, pattern, tile-type, edges, color, my-designs' | split: ', ' %} {% endcomment %}
 
@@ -11,12 +16,7 @@
     {% endfor %}
   </div>
 
-  <div class="configurator-canvas">
-    <h3>Preview</h3>
-    <div id="canvas-preview">
-      <p>Selected settings will appear here.</p>
-    </div>
-  </div>
+  <div id="canvas-preview" class="configurator-canvas"></div>
 </div>
 
 {% schema %}

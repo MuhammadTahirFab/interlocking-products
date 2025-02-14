@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "67300deb40949bcabe71fc5b9454d9ce"
-application_url = "https://selecting-africa-circuits-eric.trycloudflare.com"
+application_url = "https://bloom-researcher-taxation-diamond.trycloudflare.com"
 embedded = true
 name = "interlocking-dev"
 handle = "interlocking-dev"
@@ -28,9 +28,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://selecting-africa-circuits-eric.trycloudflare.com/auth/callback",
-  "https://selecting-africa-circuits-eric.trycloudflare.com/auth/shopify/callback",
-  "https://selecting-africa-circuits-eric.trycloudflare.com/api/auth/callback"
+  "https://bloom-researcher-taxation-diamond.trycloudflare.com/auth/callback",
+  "https://bloom-researcher-taxation-diamond.trycloudflare.com/auth/shopify/callback",
+  "https://bloom-researcher-taxation-diamond.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]
